@@ -34,11 +34,8 @@ def course_detail_view(request, id):
 @login_required(login_url='login')
 def course_create(request):
     if request.method == 'POST':
-        print("working")
         form = CourseForm(request.POST, request.FILES)
-        print("enter")
         if form.is_valid():
-            print("valid")
             course = form.save()
             messages.success(request, "Course added successfully")
             return redirect('view')

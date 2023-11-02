@@ -71,8 +71,12 @@
                                             <tr>
                                                 <td>{{forloop.counter}}</td>
                                                 <td>
-                                                    <img class="d-block img-fluid br-5 img-td" src="{{course.image}}"
-                                                        alt="">
+
+                                                    {% if course.image %}
+
+                                                    <img class="d-block img-fluid br-5 img-td"
+                                                        src="{{course.image.url}}" alt="">
+                                                    {% endif %}
                                                 </td>
                                                 <td> {{course.title}}</td>
                                                 <td>

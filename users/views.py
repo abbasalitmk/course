@@ -26,6 +26,7 @@ def signin(request):
 
 @login_required(login_url='login')
 def profile(request):
+    user = request.user
     if request.method == 'POST':
         form = ChangePasswordForm(request.user, request.POST)
         if form.is_valid():
@@ -39,7 +40,7 @@ def profile(request):
     else:
         form = ChangePasswordForm(request.user)
 
-    return render(request, 'profile.html', {"form": form})
+    return render(request, 'profile.html', {"form": form, "name": user.name})
 
 
 def signout(request):
