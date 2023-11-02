@@ -1,0 +1,320 @@
+{% extends 'theme.html' %}
+{% load static %}
+
+
+{% block 'content' %}
+
+
+<!--app-content open-->
+<div class="main-content app-content mt-0">
+    <div class="side-app">
+
+        <!-- CONTAINER -->
+        <div class="main-container container-fluid">
+
+            <!-- PAGE-HEADER -->
+            <div class="page-header">
+                <h1 class="page-title">Short Term Course View</h1>
+                <div class="search">
+                    <form id="search-form" method="GET" action="{% url 'view' %}">
+                        <div class="input-group">
+                            <div class="form-outline">
+                                <input type="search" name="search_key" value="" id="form1" class="form-control" />
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                Search
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+
+
+
+                <a href="{% url 'create' %}" class="btn btn-danger btn-pill">Add <i class="fa fa-plus"></i></a>
+
+            </div>
+            <!-- PAGE-HEADER END -->
+
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Short Term Course Table</h3>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="table-responsive">
+                                <div class="table-responsive">
+                                    <table class="table border text-nowrap text-md-nowrap table-hover mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Sl No</th>
+                                                <th>Image</th>
+                                                <th>Title</th>
+                                                <th>Subtitle</th>
+                                                <th>Description</th>
+                                                <th>Details</th>
+
+                                                <th>Satus</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- TABLE DETAILS -->
+
+                                            {% for course in courses %}
+
+
+
+                                            <tr>
+                                                <td>{{forloop.counter}}</td>
+                                                <td>
+                                                    <img class="d-block img-fluid br-5 img-td" src="{{course.image}}"
+                                                        alt="">
+                                                </td>
+                                                <td> {{course.title}}</td>
+                                                <td>
+                                                    {{course.subtitle}}
+                                                </td>
+
+                                                <td><a class="btn btn-primary" data-bs-toggle="modal"
+                                                        data-bs-target="#description">
+                                                        <i class="side-menu__icon fe fe-eye text-white"></i>
+                                                    </a>
+                                                </td>
+
+                                                <!-- MESSAGE MODAL -->
+                                                <div class="modal  fade" id="description" tabindex="-1" role="dialog">
+                                                    <div class="modal-dialog modal-md modal-dialog-centered text-center"
+                                                        role="document">
+                                                        <div class="modal-content ">
+
+                                                            <div class="modal-body">
+                                                                <button aria-label="Close"
+                                                                    class="btn-close position-absolute"
+                                                                    data-bs-dismiss="modal"><span
+                                                                        aria-hidden="true">&times;</span></button>
+
+                                                                <h4 class="text-primary">Description</h4>
+                                                                <p class="mg-b-20 mg-x-20">{{course.description}}</p>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                                <td><a class="btn btn-dark" data-bs-toggle="modal"
+                                                        data-bs-target="#crsdetail">
+                                                        <i class="side-menu__icon fe fe-list text-white"></i>
+                                                    </a>
+                                                </td>
+                                                <td>
+
+                                                    {% if course.status_text == 'Enable' %}
+                                                    <a href="{% url 'status' course.id %}"> <span
+                                                            class="btn btn-danger">Inactive</span></a>
+                                                    {% else %}
+                                                    <a href="{% url 'status' course.id %}"><span
+                                                            class="btn btn-success">Active</span></a>
+                                                    {% endif %}
+
+
+
+                                                </td>
+                                                <td>
+                                                    <a class=" btn btn-info" href="{% url 'edit' course.id %}">
+                                                        <i class="side-menu__icon fe fe-edit"></i>
+                                                    </a>
+
+                                                    <a class="btn btn-danger" data-bs-toggle="modal"
+                                                        data-bs-target="#modaldemo5">
+                                                        <i class="side-menu__icon fe fe-trash text-white"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                            <div class="modal  fade" id="modaldemo5" tabindex="-1" role="dialog">
+                                                <div class="modal-dialog modal-md modal-dialog-centered text-center"
+                                                    role="document">
+                                                    <div class="modal-content ">
+
+                                                        <div class="modal-body">
+                                                            <button aria-label="Close"
+                                                                class="btn-close position-absolute"
+                                                                data-bs-dismiss="modal"><span
+                                                                    aria-hidden="true">&times;</span></button>
+                                                            <i
+                                                                class="icon icon-close fs-70 text-danger lh-1 my-5 d-inline-block"></i>
+                                                            <h4 class="text-danger">Are You Sure Do You Want To Delete ?
+                                                            </h4>
+                                                            <p class="mg-b-20 mg-x-20">Item Will be Deleted Permanently
+                                                            </p>
+
+                                                        </div>
+                                                        <div class="modal-footer justify-content-center">
+                                                            <a href="{% url 'delete' course.id %}" class="btn
+                                                                btn-success">Yes</a>
+                                                            <button aria-label="Close" class="btn btn-danger pd-x-25"
+                                                                data-bs-dismiss="modal">Cancel</button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <!-- Course Detail  MODAL -->
+                                            <div class="modal  fade" id="crsdetail" tabindex="-1" role="dialog">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered text-center"
+                                                    role="document">
+                                                    <div class="modal-content ">
+
+                                                        <div class="modal-body">
+                                                            <button aria-label="Close"
+                                                                class="btn-close position-absolute"
+                                                                data-bs-dismiss="modal"><span
+                                                                    aria-hidden="true">&times;</span></button>
+
+
+                                                            <h3>Title: {{course.title}}</h3>
+                                                            <h5>Subtitle: {{course.subtitle}}</h5>
+                                                            <p>Description: {{course.description}}</p>
+                                                            <b>Status: {{course.status_text}}</b>
+
+                                                            <!-- <table class="table table-striped">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Title</th>
+                                                                            <th>Description</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>Lorem ipsum</td>
+                                                                            <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                                                                                tempor incididunt ut labore et dolore magna aliqua.</td>
+                                            
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Lorem ipsum</td>
+                                                                            <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                                                                                tempor incididunt ut labore et dolore magna aliqua.</td>
+                                            
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Lorem ipsum</td>
+                                                                            <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                                                                                tempor incididunt ut labore et dolore magna aliqua.</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table> -->
+
+                                                        </div>
+                                                        <div class="modal-footer justify-content-center">
+
+                                                            <button aria-label="Close" class="btn btn-danger pd-x-25"
+                                                                data-bs-dismiss="modal">Cancel</button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {% endfor %}
+                                            <!-- TABLE DETAILS END -->
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <div class="card-body">
+                                    <!-- Your existing code for displaying courses -->
+
+                                    <div class="pagination justify-content-center">
+                                        <ul class="pagination">
+                                            {% if courses.has_previous %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page=1" aria-label="First">
+                                                    <span aria-hidden="true">&laquo;&laquo;</span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ courses.previous_page_number }}"
+                                                    aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                            {% endif %}
+
+                                            <li class="page-item active">
+                                                <span class="page-link">{{ courses.number }}</span>
+                                            </li>
+
+                                            {% if courses.has_next %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ courses.next_page_number }}"
+                                                    aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ courses.paginator.num_pages }}"
+                                                    aria-label="Last">
+                                                    <span aria-hidden="true">&raquo;&raquo;</span>
+                                                </a>
+                                            </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+
+
+                                    <!-- pagination-wrapper -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <!-- CONTAINER END -->
+        </div>
+    </div>
+    <!--app-content close-->
+
+
+    <script>
+        $(document).ready(function () {
+            // Capture key changes in the input field
+            $('#form1').on('keyup', function () {
+                // Get the search key from the input field
+                var searchKey = $(this).val();
+
+                // Send an AJAX request to the server
+                $.ajax({
+                    url: "{% url 'view' %}",  // Replace 'view' with your actual URL name
+                    method: 'GET',
+                    data: { search_key: searchKey },  // Include the search key as a parameter
+                    success: function (data) {
+                        // Handle the response from the server (e.g., update the page with search results)
+                        // You can update the search results container or handle it as needed
+                    },
+                    error: function (error) {
+                        // Handle any errors, if necessary
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
+
+
+
+    {% endblock 'content' %}
